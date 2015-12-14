@@ -1,0 +1,14 @@
+C:\A2\ASP\APILibrary\APILibrary\bin\APILibrary.dll.config
+C:\A2\ASP\APILibrary\APILibrary\bin\APILibrary.dll
+C:\A2\ASP\APILibrary\APILibrary\bin\APILibrary.pdb
+C:\A2\ASP\APILibrary\APILibrary\bin\Newtonsoft.Json.dll
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Net.Http.Formatting.dll
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.dll
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.WebHost.dll
+C:\A2\ASP\APILibrary\APILibrary\bin\Newtonsoft.Json.xml
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Net.Http.Formatting.xml
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.xml
+C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.WebHost.xml
+C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.dll
+C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.pdb
+C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.csprojResolveAssemblyReference.cache
