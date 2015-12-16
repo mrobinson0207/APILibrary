@@ -7,13 +7,15 @@ using System.Web.Http;
 using System.Net.Http; 
 using System.Net.Http.Formatting;
 using System.Collections.Specialized;
+using System.Security;
 using System.Web;
+using System.IO;
 
 public class MyFormatter : BufferedMediaTypeFormatter
 { 
     public MyFormatter()
     {
-        SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+        SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded"));
         SupportedEncodings.Add(new System.Text.UTF8Encoding());
     }
 
@@ -45,28 +47,60 @@ public class ApiProxy : DelegatingHandler
 {
     protected override async System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
     {
-        string queryPart = request.RequestUri.Query;
-        UriBuilder forwardUri = new UriBuilder("https://my.ipgholdings.net/service/idealbn/getbanks");
-        //strip off the proxy port and replace with an Http port
-        if (queryPart.StartsWith("?"))
-            forwardUri.Query = queryPart.Substring(1);
-        else
-            forwardUri.Query = queryPart;
-         
+        string uriPart = "https://my.ipgholdings.net";
 
-        /*NameValueCollection nv = new NameValueCollection();
+        // Add in the rest of the request
+        foreach (var part in request.RequestUri.Segments)
+        {
+            uriPart += part;
+        }
+
+        // Determine the service type to pass to APIResponses for its deserialisation
+
+        // Credentials for testing
+        NameValueCollection nv = new NameValueCollection();
         nv.Add("client_id", "4003124");
         nv.Add("api_key", "oVGGWa1kr83aeRhBNE3B");
         nv.Add("test_transaction", "1");
-        forwardUri.Query = CreateQueryString(nv);*/
+        nv.Add("date", "2015-12-14");
+        string query = CreateQueryString(nv);
 
+        byte[] data = System.Text.Encoding.ASCII.GetBytes(query);
 
-        //send it on to the requested URL
-        request.RequestUri = forwardUri.Uri;
-        HttpClient client = new HttpClient();
-        var response = await client.PostAsync(forwardUri.Uri, forwardUri.Query, new MyFormatter());
-        // HttpResponseMessage response = await client.PostAsync(forwardUri.Uri, forwardUri.Uri.Content);
-        return response;
+        // Create a request using a URL that can receive a post. 
+        WebRequest wrequest = WebRequest.Create(uriPart);
+        // Set the Method property of the request to POST.
+        wrequest.Method = "POST";
+        wrequest.ContentType = "application/x-www-form-urlencoded";
+        wrequest.ContentLength = data.Length;
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        APIResponses apiResp = null;
+        try
+        {
+            Stream reqStream = wrequest.GetRequestStream();
+            reqStream.Write(data, 0, data.Length);
+            reqStream.Close();
+
+            // Get the response.
+            WebResponse wresponse = wrequest.GetResponse();
+            // Get the stream containing content returned by the server.
+            Stream dataStream = wresponse.GetResponseStream();
+            // Open the stream using a StreamReader for easy access.
+            StreamReader wreader = new StreamReader(dataStream);
+            // Read the content.
+            string wresp = wreader.ReadToEnd();
+            // Clean up the streams.
+            wreader.Close();
+            dataStream.Close();
+            wresponse.Close();
+            apiResp = new APIResponses(wresp);
+        }
+        catch (Exception ex)
+        {
+            string catching = "debug";
+        }
+
+        return null;
     }
 
     private string CreateQueryString(NameValueCollection nvc)
@@ -75,6 +109,6 @@ public class ApiProxy : DelegatingHandler
                      from value in nvc.GetValues(key)
                      select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
             .ToArray();
-        return "?" + string.Join("&", array);
+        return string.Join("&", array);
     }
 }

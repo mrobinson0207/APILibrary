@@ -15,15 +15,15 @@ namespace APILibrary
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
+            /*config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                /*routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-            );
+            );*/
 
             config.Routes.MapHttpRoute(
-                name: "Service", */
-                routeTemplate: "{*path}",
+                name: "service", 
+                routeTemplate: "service/{id}",
                 constraints: null, 
                 handler:
                 HttpClientFactory.CreatePipeline
@@ -33,6 +33,7 @@ namespace APILibrary
                 ),
                 defaults: new { id = RouteParameter.Optional }
             );
+
         }
     }
 

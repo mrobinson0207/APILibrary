@@ -1,40 +1,120 @@
 ﻿using System;
+using System.Xml;
+using System.IO;
+using System.Xml.Linq;
+using System.Xml.Resolvers;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 // Response classes
+
+[XmlRoot("orders"), Serializable]
+public class orders
+{
+    [XmlElement("num_records")]
+    public string num_records { get; set; }
+    [XmlElement("order")]
+    public order[] order { get; set; }
+}
 
 [Serializable]
 public class order
 {
     // Common Fields - order
+    [XmlElement("order_id")]
     public string order_id {get; set; }
+    [XmlElement("order_reference")]
     public string order_reference { get; set; }
+    [XmlElement("order_datetime")]
     public string order_datetime { get; set; }
+    [XmlElement("order_total")]
     public string order_total { get; set; }
+    [XmlElement("order_currency")]
     public string order_currency { get; set; }
-    public string order_status { get; set; }
+    [XmlElement("test_transaction")]
     public string test_transaction { get; set; }
-    public string trans_id { get; set; }
-    public string account_id { get; set; }
-    public string resp_code { get; set; }
-    public string resp_text { get; set; }
-    public string redirect_url { get; set; }
-    public cart [] carts { get; set; }
-    public transaction [] transactions { get; set; }
-    public avs_response avs_response { get; set; }
+    [XmlElement("order_status")]
+    public string order_status { get; set; }
+    // Shipping fields
+    //public shipping shipping { get; set; }
+    [XmlElement("customer_first_name")]
     public string customer_first_name { get; set; }
+    [XmlElement("customer_last_name")]
     public string customer_last_name { get; set; }
+    [XmlElement("customer_company")]
     public string customer_company { get; set; }
+    [XmlElement("customer_address")]
     public string customer_address { get; set; }
+    [XmlElement("customer_city")]
     public string customer_city { get; set; }
+    [XmlElement("customer_state")]
+    public string customer_state { get; set; }
+    [XmlElement("customer_postcode")]
+    public string customer_postcode { get; set; }
+    [XmlElement("customer_country")]
+    public string customer_country { get; set; }
+    [XmlElement("customer_email")]
+    public string customer_email { get; set; }
+    [XmlElement("customer_phone")]
     public string customer_phone { get; set; }
-    public string shipping_first_name { get; set; }
+    [XmlElement("shipping_last_name")]
     public string shipping_last_name { get; set; }
+    [XmlElement("shipping_company")]
     public string shipping_company { get; set; }
+    [XmlElement("shipping_address")]
     public string shipping_address { get; set; }
+    [XmlElement("shipping_city")]
     public string shipping_city { get; set; }
+    [XmlElement("shipping_state")]
     public string shipping_state { get; set; }
+    [XmlElement("shipping_postcode")]
     public string shipping_postcode { get; set; }
+    [XmlElement("shipping_country")]
     public string shipping_country { get; set; }
-    public item[] items { get; set; } 
+    [XmlArray("items")]
+    [XmlArrayItem("item", typeof(item))]
+    public item[] items { get; set; }
+
+}
+
+// Split this into customer and shipping??
+[Serializable]
+public class shipping
+{
+    // Shipping fields
+    [XmlElement("customer_first_name")]
+    public string customer_first_name { get; set; }
+    [XmlElement("customer_last_name")]
+    public string customer_last_name { get; set; }
+    [XmlElement("customer_company")]
+    public string customer_company { get; set; }
+    [XmlElement("customer_address")]
+    public string customer_address { get; set; }
+    [XmlElement("customer_city")]
+    public string customer_city { get; set; }
+    [XmlElement("customer_state")]
+    public string customer_state { get; set; }
+    [XmlElement("customer_postcode")]
+    public string customer_postcode { get; set; }
+    [XmlElement("customer_country")]
+    public string customer_country { get; set; }
+    [XmlElement("customer_email")]
+    public string customer_email { get; set; }
+    [XmlElement("customer_phone")]
+    public string customer_phone { get; set; }
+    [XmlElement("shipping_last_name")]
+    public string shipping_last_name { get; set; }
+    [XmlElement("shipping_company")]
+    public string shipping_company { get; set; }
+    [XmlElement("shipping_address")]
+    public string shipping_address { get; set; }
+    [XmlElement("shipping_city")]
+    public string shipping_city { get; set; }
+    [XmlElement("shipping_state")]
+    public string shipping_state { get; set; }
+    [XmlElement("shipping_postcode")]
+    public string shipping_postcode { get; set; }
+    [XmlElement("shipping_country")]
+    public string shipping_country { get; set; }
 }
 
 [Serializable]
@@ -66,39 +146,60 @@ public class Trans
 public class item
 {
     // Item fields
+    [XmlElement("id")]
     public string id { get; set; }
+    [XmlElement("code")]
     public string code { get; set; }
+    [XmlElement("name")]
     public string name { get; set; }
+    [XmlElement("description")]
     public string description { get; set; }
+    [XmlElement("qty")]
     public string qty { get; set; }
+    [XmlElement("digital")]
     public string digital { get; set; }
+    [XmlElement("discount")]
     public string discount { get; set; }
+    [XmlElement("predefined")]
     public string predefined { get; set; }
+    [XmlElement("realm_name")]
     public string realm_name { get; set; }
+    [XmlElement("unit_price")]
+    public string unit_price { get; set; }
 }
 
 [Serializable]
 public class cart
 {
     // Cart items
-    public item [] items  { get; set; }
+    [XmlArray("items")]
+    [XmlArrayItem("item", typeof(item))]
+    public item[] items { get; set; }
 }
 
 [Serializable]
 public class providers
 {
+    [XmlElement("Trans")]
     public Trans Trans { get; set; }
 }
 
 [Serializable]
 public class transaction
 {
+    [XmlElement("type")]
     public string type { get; set; }
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("response_code")]
     public string response_code { get; set; }
+    [XmlElement("response_text")]
     public string response_text { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
+    [XmlElement("account_id")]
     public string account_id { get; set; }
+    [XmlElement("risk")]
     public providers risk { get; set; }
 }
 
@@ -319,6 +420,7 @@ public class customer
     public string customer_id { get; set; }
     public string name { get; set; }
     public string email { get; set; }
+    public string creation_date { get; set; }
 }
 
 [Serializable]
@@ -352,152 +454,166 @@ public class logo
 [Serializable]
 public class banks_info
 {
-    public inpay_bank [] banks { get; set; }
+    public List<inpay_bank> banks { get; set; }
     public string binaries_revision { get; set; }
 }
 
 [Serializable]
 public class instructions
 {
-    public inpay_bank[] banks { get; set; }
+    public List<inpay_bank> banks { get; set; }
+}
+
+[Serializable]
+public class iDEAL_bank
+{
+    public string id { get; set; }
+    public string name { get; set; }
+    public string country { get; set; }
+}
+
+[Serializable]
+public class iDEAL_banks
+{
+    public iDEAL_bank[] banks { get; set; }
+}
+
+[Serializable]
+public class reconciliation_services
+{
+    public order[] orders { get; set; }
+}
+
+[Serializable]
+public class fraud
+{
+    public string trans_id { get; set; }
+    public string client_id { get; set; }
+    public string client { get; set; }
+    public string card_number { get; set; }
+    public string amount { get; set; }
+    public string currency { get; set; }
+    public string card_type { get; set; }
+    public string trans_date { get; set; }
+    public string import_date { get; set; }
+    public string action { get; set; }
+    public string customer_name { get; set; }
+    public string email { get; set; }
+    public string ip_address { get; set; }
+    public string reason_code { get; set; }
+    public string reason { get; set; }
+    public string reference { get; set; }
+    public string acquirer_trans_id { get; set; }
+}
+
+[Serializable]
+public class fraud_date_retrieval
+{
+    public fraud[] frauds { get; set; }
+}
+
+[Serializable]
+public class chargeback
+{
+    public string chargeback_date { get; set; }
+    public string import_date { get; set; }
+    public string client_id { get; set; }
+    public string client { get; set; }
+    public string trans_id { get; set; }
+    public string trans_type { get; set; }
+    public string trans_amount { get; set; }
+    public string card_type { get; set; }
+    public string card_number { get; set; }
+    public string card_category { get; set; }
+    public string card_sub_category { get; set; }
+    public string card_issuing_bank { get; set; }
+    public string amount { get; set; }
+    public string currency { get; set; }
+    public string country { get; set; }
+    public string customer_name { get; set; }
+    public string email { get; set; }
+    public string reference { get; set; }
+    public string reason_code { get; set; }
+    public string reason { get; set; }
+}
+
+[Serializable]
+public class chargebacks
+{
+    public chargeback chargeback { get; set; }
+    public chargeback representment { get; set; }
+    public chargeback reversal { get; set; }
+}
+
+[Serializable]
+public class customers
+{
+    public string num_records { get; set; }
+    public customer[] customer_set { get; set; }
+}
+
+[Serializable]
+public class airlinedata
+{
+    public string trans_id { get; set; }
+    public string restricted_ticket_indicator { get; set; }
+    public string passenger_name { get; set; }
+    public string issue_date { get; set; }
+    public string travel_agency_name { get; set; }
+    public string travel_agency_code { get; set; }
+    public string ticket_number { get; set; }
+    public string customer_code { get; set; }
+    public string issuing_carrier { get; set; }
+    public string reservation_system { get; set; }
+    public string total_fare { get; set; }
+    public string total_taxes { get; set; }
+    public string total_fee { get; set; }
+    public string conjunction_ticket { get; set; }
+    public string exchange_ticket { get; set; }
+    public string coupon_number { get; set; }
+    public string service_class { get; set; }
+    public string travel_date { get; set; }
+    public string carrier_code { get; set; }
+    public string stopover_code { get; set; }
+    public string city_of_origin_airport_code { get; set; }
+    public string city_of_destination_airport_code { get; set; }
+    public string flight_number { get; set; }
+    public string departure_time { get; set; }
+    public string departure_time_segment { get; set; }
+    public string arrival_time { get; set; }
+    public string arrival_time_segment { get; set; }
+    public string fare_basis_code { get; set; }
+    public string fare { get; set; }
+    public string taxes { get; set; }
+    public string fee { get; set; }
+    public string endorsement_or_restrictions { get; set; }
+}
+
+[Serializable]
+public class airlinetrans
+{
+    public string num_records { get; set; }
+    public airlinedata[] airlinedata { get; set; }
 }
 
 
-/*public class APIResponses
+
+
+
+public class APIResponses
 {
-    // Response types
-    string order_resp = "order";
-    string errors_resp = "errors";
-    string decline_resp = "decline";
-
-    // Common Fields - order
-    string order_id = "order_id";
-    string order_datetime = "order_datetime";
-    string order_total = "order_total";
-    string order_status = "order_status";
-    string test_transaction = "test_transaction";
-    string trans_id = "trans_id";
-    string account_id = "account_id";
-    string resp_code = "response_code";
-    string resp_text = "response_text";
-    string redirect_url = "redirect_url";
-
-    // Cart fields
-    string cart_enc = "cart";
-    string cart_item = "item";
-    string cart_code = "code";
-    string cart_name = "name";
-    string cart_qty = "qty";
-    string cart_digital = "digital";
-    string cart_discount = "discount";
-    string cart_predefined = "predefined";
-    string cart_desc = "description";
-
-    // Transaction fields
-    string trans_enc = "transaction";
-    string trans_type = "type";
-
-    // Error response
-    string error_code = "code";
-    string error_text = "text";
-
-    // Decline response - do we need this???
-    string decline_type = "type";
-    string decline_code = "response_code";
-    string decline_text = "response_text";
-
-    // ukash fields
-    string ukash_voucher = "ukash_voucher";
-    string u_number = "number";
-    string u_value = "value";
-    string change_voucher = "changevoucher";
-    string currency = "currency";
-    string amount = "amount";
-    string useby = "usebydate";
-
-    // inpay fields
-    string inpay_inv = "inpay_invoice";
-    string inpay_bank = "inpay_bank";
-
-    // inpay invoice
-    string inpay_inv_fields = {"status", "transfer-amount", "is-third-party", "buyer-email", "order-id", "reference", "merchant", "transfer-amount-with-currency",
-                              "transfer-currency", "bank-id", "amount", "order-text", "buyer-address", "invoice-comment", "buyer-submitted-details", "delay", "currency"};
-
-    // inpay bank
-    string inpay_bank_fields = {"owner-address", "bank-address", "online-bank-url", "logo", "inpay_bank_account", "url", "name", "country", "id", "payment-instructions"};
-
-    // UATP 
-    string uatp_avs = "avs_response";
-    string uatp_fields = {"acquirer_approvalcode", "acquirer_actioncode", "acquirer_description", "iso_actioncode"};
-
-    // Bank transfer
-    string bank_transfer = "payment_instructions";
-    string bank_trans_fields = {"reference", "amount", "currency", "bank_name", "account_name", "account_country", "iban", "bic", "sort_code", "account_number"};
-
-    // iSign 
-    string isign_type = "isignthis_instructions";
-    string isign_fields = {"redirect_url", "mode"};
-
-    // Order Settle - common for order credit, order CFT, order void, payout (except ukash: add voucher), rebill instant upgrade
-    string settle_type = {"settle", "credit", "cft", "void", "payout", "upgrade"};
-    string settle_fields = {"response", "responsecode", "responsetext", "trans_id"};
-
-    // Order Payout - CFT without previous order
-    string payout_type = "payout";
-    string payout_fields = {"response", "responsecode", "responsetext", "trans_id", "order_id"};
-
-    // Order Rebill-cancel
-    string settle_type = {"cancelrebill"};
-    string settle_fields = {"response", "responsecode", "responsetext"};
-
-    // VBV/3D Secure Authen
-    string vbv_auth_type = "response";
-    string vbv_auth_fields = {"requestid", "enrollmentstatus", "bouncerURL"};
-
-    // VBV/3D retrieval
-    string vbv_retrieval_type = "result";
-    string vbv_retrieval_fields = {"requestId", "authenticationstatus", "eci", "xid", "cavv"};
-
-    // Add/remove Blacklist, Whitelist
-    string blacklist_type = {"blacklist", "whitelist"};
-    string blacklist_fields = {"response"};
-
-    // Create/update customer
-    string customer_type = "customer";
-    string customer_fields = {"customer_id", "name", "email"};
-
-    // Get Customer Cards
-    string cards_type = "cards";
-    string cards_fields = {"num_records", "card"};
-    string card_fields = {"order_id", "type", "card_number", "exp_month", "exp_year"};
-
-    // Phone Verify
-    string phone_type = "phoneverify";
-    string phone_fields = {"response", "responsecode", "phoneverify_id"};
-
-    // INPay Get banks
-    string banks_type = "banks_info";
-    string banks_fields = {"banks", "binaries-revision"};
-    string banks_subfield = "bank";
-    string bank_fields = {"owner-address", "bank-address", "online-bank-url", "logo", "inpay-bank-account", "url", "name", "id"};
-    string inpay_bank_account_fields = {"date-format", "account", "swift", "iban", "money-format", "currency"};
-
-    // INPay getinstructions
-    string get_instructions_type = "instructions";
-    string get_instructions_fields = {"inpay_bank"};
-    string inpay_bank_fields = {"online-bank-url", "logo", "inpay-bank-account", "id", "payment-instructions"};
-    string payment_instructions_fields = {"binaries-revision", "account-details"};
-    string account_details = "fields";
-    string account_details_fields = "field";
-    string account_details_fields_field = {"label", "transfer-route", "value", "label-value"};
-
-    // iDEAL Getbanks
-    string ideal_banks_type = "banks";
-    string ideal_banks_field = "bank";
-    string ideal_banks_bank = { "id", "name", "country" };
-
-	public void OrderSubmit()
+    public orders my_orders;
+  	public APIResponses(string responseXml)
 	{
-        
+        try
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(orders));
+            my_orders = (orders)ser.Deserialize(new StringReader(responseXml));
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return;
 	}
-} */
+}
