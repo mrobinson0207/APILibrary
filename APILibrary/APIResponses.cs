@@ -120,23 +120,41 @@ public class shipping
 [Serializable]
 public class Trans
 {
+    [XmlElement("status")]
     public string status { get; set; }
+    [XmlElement("city")]
     public string city { get; set; }
+    [XmlElement("state")]
     public string state { get; set; }
+    [XmlElement("zip")]
     public string zip { get; set; }
+    [XmlElement("country")]
     public string country { get; set; }
+    [XmlElement("email")]
     public string email { get; set; }
+    [XmlElement("phone")]
     public string phone { get; set; }
+    [XmlElement("cardholdername")]
     public string cardholdername { get; set; }
+    [XmlElement("ccfirst6")]
     public string ccfirst6 { get; set; }
+    [XmlElement("cclast4")]
     public string cclast4 { get; set; }
+    [XmlElement("cardbrand")]
     public string cardbrand { get; set; }
+    [XmlElement("eci")]
     public string eci { get; set; }
+    [XmlElement("amount")]
     public string amount { get; set; }
+    [XmlElement("ipaddress")]
     public string ipaddress { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
+    [XmlElement("thm_session_id")]
     public string thm_session_id { get; set; }
+    [XmlElement("ioblackbox")]
     public string ioblackbox { get; set; }
+    [XmlElement("cavv_present")]
     public string cavv_present { get; set; }
 
 }
@@ -166,6 +184,8 @@ public class item
     public string realm_name { get; set; }
     [XmlElement("unit_price")]
     public string unit_price { get; set; }
+    [XmlElement("rebill")]
+    public string rebill { get; set; }
 }
 
 [Serializable]
@@ -206,7 +226,9 @@ public class transaction
 [Serializable]
 public class error
 {
+    [XmlElement("code")]
     public string code { get; set; }
+    [XmlElement("text")]
     public string text { get; set; }
 }
 
@@ -214,17 +236,26 @@ public class error
 public class ukash_voucher
 {
     // ukash fields
+    [XmlElement("number")]
     public string number { get; set; }
-    public string value { get; set; }
-    public changevoucher _changevoucher { get; set; }
+    [XmlElement("currency")]
+    public string currency { get; set; }
+    [XmlElement("amount")]
+    public string amount { get; set; }
+    [XmlElement("expirydate")]
+    public string expirydate { get; set; }
 }
 
 [Serializable]
 public class changevoucher
 {
+    [XmlElement("number")]
     public string number { get; set; }
+    [XmlElement("currency")]
     public string currency { get; set; }
+    [XmlElement("amount")]
     public string amount { get; set; }
+    [XmlElement("usebydate")]
     public string usebydate { get; set; }
 }
 
@@ -232,30 +263,50 @@ public class changevoucher
 public class inpay_invoice
 {
     // inpay invoice
-    public string status  { get; set; }
-    public string transfer_amount  { get; set; }
-    public string is_third_party  { get; set; }
+    [XmlElement("status")]
+    public string status { get; set; }
+    [XmlElement("transfer_amount")]
+    public string transfer_amount { get; set; }
+    [XmlElement("is_third_party")]
+    public string is_third_party { get; set; }
+    [XmlElement("buyer_email")]
     public string buyer_email { get; set; }
+    [XmlElement("order_id")]
     public string order_id { get; set; }
+    [XmlElement("reference")]
     public string reference { get; set; }
+    [XmlElement("merchant")]
     public string merchant { get; set; }
+    [XmlElement("transfer_amount_with_currency")]
     public string transfer_amount_with_currency { get; set; }
+    [XmlElement("transfer_currency")]
     public string transfer_currency { get; set; }
+    [XmlElement("bank_id")]
     public string bank_id { get; set; }
+    [XmlElement("amount")]
     public string amount { get; set; }
+    [XmlElement("order_text")]
     public string order_text { get; set; }
+    [XmlElement("buyer_address")]
     public string buyer_address { get; set; }
+    [XmlElement("invoice_comment")]
     public string invoice_comment { get; set; }
+    [XmlElement("buyer_submitted_detail")]
     public string buyer_submitted_details { get; set; }
+    [XmlElement("delay")]
     public string delay { get; set; }
+    [XmlElement("currency")]
     public string currency { get; set; }
 }
 
 [Serializable]
 public class bank
 {
+    [XmlElement("id")]
     public string id { get; set; }
+    [XmlElement("name")]
     public string name { get; set; }
+    [XmlElement("country")]
     public string country { get; set; }
 }
 
@@ -263,15 +314,25 @@ public class bank
 public class inpay_bank
 {
     // inpay bank
+    [XmlElement("owner_address")]
     public string owner_address { get; set; }
+    [XmlElement("bank_address")]
     public string bank_address { get; set; }
+    [XmlElement("online_bank_url")]
     public string online_bank_url { get; set; }
+    [XmlElement("logo")]
     public string logo { get; set; }
+    [XmlElement("inpay_bank_account")]
     public inpay_bank_account inpay_bank_account { get; set; }
+    [XmlElement("url")]
     public string url { get; set; }
+    [XmlElement("name")]
     public string name { get; set; }
+    [XmlElement("country")]
     public string country { get; set; }
+    [XmlElement("id")]
     public string id { get; set; }
+    [XmlElement("payment_instructions")]
     public payment_instructions payment_instructions { get; set; }
 
 }
@@ -279,11 +340,17 @@ public class inpay_bank
 [Serializable]
 public class inpay_bank_account
 {
+    [XmlElement("date_format")]
     public string date_format { get; set; }
+    [XmlElement("account")]
     public string account { get; set; }
+    [XmlElement("swift")]
     public string swift { get; set; }
+    [XmlElement("iban")]
     public string iban { get; set; }
+    [XmlElement("money_format")]
     public string money_format { get; set; }
+    [XmlElement("currency")]
     public string currency { get; set; }
 }
 
@@ -329,88 +396,160 @@ public class avs_response
     public string iso_actioncode { get; set; }
 }
 
-[Serializable]
+/*[Serializable]
 public class rebill
 {
     public transaction transaction { get; set; }
     public item item { get; set; }
     public order order { get; set; }
+}*/
+[Serializable]
+public class rebill
+{
+    [XmlElement("rebill_id")]
+    public string rebill_id { get; set; }
+    [XmlElement("rebill_period")]
+    public string rebill_period { get; set; }
+    [XmlElement("rebill_count")]
+    public string rebill_count { get; set; }
+    [XmlElement("rebill_remaining")]
+    public string rebill_remaining { get; set; }
+    [XmlElement("initial_price")]
+    public string initial_price { get; set; }
+    [XmlElement("next_due")]
+    public string next_due { get; set; }
 }
 
-[Serializable]
+[XmlRoot("settle"), Serializable]
 public class settle
 {
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("responsecode")]
     public string responsecode { get; set; }
+    [XmlElement("responsetext")]
     public string responsetext { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
 }
 
-[Serializable]
+[XmlRoot("credit"), Serializable]
+public class credit
+{
+    [XmlElement("response")]
+    public string response { get; set; }
+    [XmlElement("responsecode")]
+    public string responsecode { get; set; }
+    [XmlElement("responsetext")]
+    public string responsetext { get; set; }
+    [XmlElement("trans_id")]
+    public string trans_id { get; set; }
+}
+
+[XmlRoot("cft"), Serializable]
+public class cft
+{
+    [XmlElement("response")]
+    public string response { get; set; }
+    [XmlElement("responsecode")]
+    public string responsecode { get; set; }
+    [XmlElement("responsetext")]
+    public string responsetext { get; set; }
+    [XmlElement("trans_id")]
+    public string trans_id { get; set; }
+}
+
+[XmlRoot("payout"), Serializable]
 public class payout
 {
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("responsecode")]
     public string responsecode { get; set; }
+    [XmlElement("responsetext")]
     public string responsetext { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
-    public string order_id { get; set; }
+    [XmlElement("ukash_voucher")]
     public ukash_voucher ukash_voucher { get; set; } 
 }
 
-[Serializable]
+[XmlRoot("void"), Serializable]
 public class _void
 {
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("responsecode")]
     public string responsecode { get; set; }
+    [XmlElement("responsetext")]
     public string responsetext { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
 }
 
-[Serializable]
+[XmlRoot("upgrade"), Serializable]
 public class upgrade
 {
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("responsecode")]
     public string responsecode { get; set; }
+    [XmlElement("responsetext")]
     public string responsetext { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
 }
 
-[Serializable]
+[XmlRoot("cancelrebill"), Serializable]
 public class cancelrebill
 {
+    [XmlElement("response")]
     public string response { get; set; }
+    [XmlElement("responsecode")]
     public string responsecode { get; set; }
+    [XmlElement("responsetext")]
     public string responsetext { get; set; }
+    [XmlElement("trans_id")]
     public string trans_id { get; set; }
 }
 
-[Serializable]
+[XmlRoot("response"), Serializable]
 public class response
 {
+    [XmlElement("requestid")]
     public string requestid { get; set; }
+    [XmlElement("enrollmentstatus")]
     public string enrollmentstatus { get; set; }
+    [XmlElement("bouncerURL")]
     public string bouncerURL { get; set; }
 }
 
-[Serializable]
+[XmlRoot("result"), Serializable]
 public class result
 {
+    [XmlElement("requestid")]
     public string requestId { get; set; }
+    [XmlElement("authenticationstatus")]
     public string authenticationstatus { get; set; }
+    [XmlElement("eci")]
     public string eci { get; set; }
+    [XmlElement("xid")]
     public string xid { get; set; }
+    [XmlElement("cavv")]
     public string cavv { get; set; }
 }
 
-[Serializable]
+[XmlRoot("blacklist"), Serializable]
 public class blacklist
 {
+    [XmlElement("response")]
     public string response { get; set; } 
 }
 
-[Serializable]
+[XmlRoot("whitelist"), Serializable]
 public class whitelist
 {
+    [XmlElement("response")]
     public string response { get; set; }
 }
 
@@ -454,14 +593,14 @@ public class logo
 [Serializable]
 public class banks_info
 {
-    public List<inpay_bank> banks { get; set; }
+    public inpay_bank[] banks { get; set; }
     public string binaries_revision { get; set; }
 }
 
 [Serializable]
 public class instructions
 {
-    public List<inpay_bank> banks { get; set; }
+    public inpay_bank[] banks { get; set; }
 }
 
 [Serializable]
@@ -589,29 +728,120 @@ public class airlinedata
     public string endorsement_or_restrictions { get; set; }
 }
 
-[Serializable]
+[XmlRoot("airlinetrans"), Serializable]
 public class airlinetrans
 {
+    [XmlElement("num_records")]
     public string num_records { get; set; }
+    [XmlArrayItem("airlinedata", typeof(airlinedata))]
     public airlinedata[] airlinedata { get; set; }
 }
 
-
-
+[XmlRoot("failure"), Serializable]
+public class failure
+{
+    [XmlArray("errors")]
+    [XmlArrayItem("error", typeof(error))]
+    public error[] errors { get; set; }
+}
 
 
 public class APIResponses
 {
-    public orders my_orders;
+    public orders resp_orders;
+    public failure resp_failure;
+    public settle resp_settle;
+    public credit resp_credit;
+    public cft resp_cft;
+    public _void resp_void;
+    public payout resp_payout;
+    public upgrade resp_upgrade;
+    public cancelrebill resp_cancelrebill;
+    public response resp_response;
+    public result resp_result;
+    public blacklist resp_blacklist;
+    public whitelist resp_whitelist;
+    public string resp_xml;
+
   	public APIResponses(string responseXml)
 	{
+        // Take a copy of the xml - this can be presented if the deserialize fails
+        resp_xml = String.Copy(responseXml);
+
+        // Determine the type of response - this will be the first xml type after the header
+        int headerStart = responseXml.IndexOf('>');
+        headerStart += responseXml.Substring(headerStart).IndexOf('<') + 1;
+        int typeEnd = responseXml.Substring(headerStart).IndexOf('>');
+        if (typeEnd == 0)
+            return;
+        string respType = responseXml.Substring(headerStart, typeEnd);
+        XmlSerializer ser;
         try
         {
-            XmlSerializer ser = new XmlSerializer(typeof(orders));
-            my_orders = (orders)ser.Deserialize(new StringReader(responseXml));
+            switch (respType)
+            {
+                case "orders":
+                    ser = new XmlSerializer(typeof(orders));
+                    resp_orders = (orders)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "failure":
+                    ser = new XmlSerializer(typeof(failure));
+                    resp_failure = (failure)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "settle":
+                    ser = new XmlSerializer(typeof(settle));
+                    resp_settle = (settle)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "credit":
+                    ser = new XmlSerializer(typeof(credit));
+                    resp_credit = (credit)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "cft":
+                    ser = new XmlSerializer(typeof(cft));
+                    resp_cft = (cft)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "void":
+                    ser = new XmlSerializer(typeof(_void));
+                    resp_void = (_void)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "payout":
+                    ser = new XmlSerializer(typeof(payout));
+                    resp_payout = (payout)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "upgrade":
+                    ser = new XmlSerializer(typeof(upgrade));
+                    resp_upgrade = (upgrade)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "cancelrebill":
+                    ser = new XmlSerializer(typeof(cancelrebill));
+                    resp_cancelrebill = (cancelrebill)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "response":
+                    ser = new XmlSerializer(typeof(response));
+                    resp_response = (response)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "result":
+                    ser = new XmlSerializer(typeof(result));
+                    resp_result = (result)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "blacklist":
+                    ser = new XmlSerializer(typeof(blacklist));
+                    resp_blacklist = (blacklist)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "whitelist":
+                    ser = new XmlSerializer(typeof(whitelist));
+                    resp_whitelist = (whitelist)ser.Deserialize(new StringReader(responseXml));
+                    break;
+
+                default:
+                    // not found - unhandled
+                    break;
+            }
         }
         catch (Exception ex)
         {
+            // log any exception
+            string logString = "Exception: " + ex.Message;
         }
 
         return;

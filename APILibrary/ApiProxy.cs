@@ -49,6 +49,15 @@ public class ApiProxy : DelegatingHandler
     {
         string uriPart = "https://my.ipgholdings.net";
 
+        
+        if (request.RequestUri.Segments[1].Contains("test"))
+        {
+            string arg1 = request.RequestUri.Segments[2].Split('/')[0];
+            string arg2 = (request.RequestUri.Segments.Length > 2) ? request.RequestUri.Segments[3] : null;
+            UnitTests tests = new UnitTests(arg1, arg2);
+            return null;
+        }
+
         // Add in the rest of the request
         foreach (var part in request.RequestUri.Segments)
         {
@@ -56,6 +65,9 @@ public class ApiProxy : DelegatingHandler
         }
 
         // Determine the service type to pass to APIResponses for its deserialisation
+
+        HttpContent reqContent = request.Content;
+
 
         // Credentials for testing
         NameValueCollection nv = new NameValueCollection();
@@ -75,32 +87,52 @@ public class ApiProxy : DelegatingHandler
         wrequest.ContentLength = data.Length;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         APIResponses apiResp = null;
+        WebResponse wresponse = null;
+        string respContent = null;
+        Stream dataStream;
         try
         {
             Stream reqStream = wrequest.GetRequestStream();
             reqStream.Write(data, 0, data.Length);
             reqStream.Close();
-
+            
             // Get the response.
-            WebResponse wresponse = wrequest.GetResponse();
+            wresponse = wrequest.GetResponse();
             // Get the stream containing content returned by the server.
-            Stream dataStream = wresponse.GetResponseStream();
+            dataStream = wresponse.GetResponseStream();
             // Open the stream using a StreamReader for easy access.
             StreamReader wreader = new StreamReader(dataStream);
             // Read the content.
-            string wresp = wreader.ReadToEnd();
+            respContent = wreader.ReadToEnd();
             // Clean up the streams.
             wreader.Close();
             dataStream.Close();
             wresponse.Close();
-            apiResp = new APIResponses(wresp);
+            apiResp = new APIResponses(respContent);
         }
         catch (Exception ex)
         {
             string catching = "debug";
         }
 
-        return null;
+        /*HttpResponseMessage httpResp = new HttpResponseMessage
+        {
+            Content = new ObjectContent<string>(
+                         respContent,
+                         new XmlMediaTypeFormatter(),
+                         "application/xml"),
+            StatusCode = HttpStatusCode.OK
+        };*/
+
+        HttpResponseMessage httpResp = new HttpResponseMessage
+        {
+            Content = new StringContent(
+                         respContent,
+                         System.Text.Encoding.UTF8,
+                         "application/xml"),
+            StatusCode = HttpStatusCode.OK
+        };
+        return httpResp;
     }
 
     private string CreateQueryString(NameValueCollection nvc)

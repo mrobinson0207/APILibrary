@@ -11,29 +11,29 @@ namespace APILibrary.Controllers
     {
         ApiLibraryItem[] names = new ApiLibraryItem[]
         {
-            new ApiLibraryItem { id = 1, API_Name = "Order Submit" },
-            new ApiLibraryItem { id = 2, API_Name = "Merchant Managed Rebill"},
-            new ApiLibraryItem { id = 3, API_Name = "Order Settle" },
-            new ApiLibraryItem { id = 4, API_Name = "Order Credit" },
-            new ApiLibraryItem { id = 5, API_Name = "Order CFT" },
-            new ApiLibraryItem { id = 6, API_Name = "Payout/CFT Without Previous Order" },
-            new ApiLibraryItem { id = 7, API_Name = "Order VoAPI_Name" },
-            new ApiLibraryItem { id = 8, API_Name = "Payout" },
-            new ApiLibraryItem { id = 9, API_Name = "Order Rebill Instant Update" },
-            new ApiLibraryItem { id = 10, API_Name = "Order Cancel Rebilling" },
-            new ApiLibraryItem { id = 11, API_Name = "VBV/3D Secure Authentication" },
-            new ApiLibraryItem { id = 12, API_Name = "Add to Merchant Blacklist" },
-            new ApiLibraryItem { id = 13, API_Name = "Remove from Merchant Blacklist" },
-            new ApiLibraryItem { id = 14, API_Name = "Add to Merchant Whitelist" },
-            new ApiLibraryItem { id = 15, API_Name = "Remove from Merchant Whitelist" },
-            new ApiLibraryItem { id = 16, API_Name = "Create Customer" },
-            new ApiLibraryItem { id = 17, API_Name = "Update Customer" },
-            new ApiLibraryItem { id = 18, API_Name = "Get Customer Cards" },
-            new ApiLibraryItem { id = 19, API_Name = "Phone Verify" },
-            new ApiLibraryItem { id = 20, API_Name = "INPay - getbanks" },
-            new ApiLibraryItem { id = 21, API_Name = "INPay - getinstructions" },
-            new ApiLibraryItem { id = 22, API_Name = "API_NameEAL ABN - getbanks" },
-            new ApiLibraryItem { id = 23, API_Name = "Earthport - GetPayoutRequiredData" }
+            new ApiLibraryItem { client_id = 1, api_key = "Order Submit" },
+            new ApiLibraryItem { client_id = 2, api_key = "Merchant Managed Rebill"},
+            new ApiLibraryItem { client_id = 3, api_key = "Order Settle" },
+            new ApiLibraryItem { client_id = 4, api_key = "Order Credit" },
+            new ApiLibraryItem { client_id = 5, api_key = "Order CFT" },
+            new ApiLibraryItem { client_id = 6, api_key = "Payout/CFT Without Previous Order" },
+            new ApiLibraryItem { client_id = 7, api_key = "Order Voapi_key" },
+            new ApiLibraryItem { client_id = 8, api_key = "Payout" },
+            new ApiLibraryItem { client_id = 9, api_key = "Order Rebill Instant Update" },
+            new ApiLibraryItem { client_id = 10, api_key = "Order Cancel Rebilling" },
+            new ApiLibraryItem { client_id = 11, api_key = "VBV/3D Secure Authentication" },
+            new ApiLibraryItem { client_id = 12, api_key = "Add to Merchant Blacklist" },
+            new ApiLibraryItem { client_id = 13, api_key = "Remove from Merchant Blacklist" },
+            new ApiLibraryItem { client_id = 14, api_key = "Add to Merchant Whitelist" },
+            new ApiLibraryItem { client_id = 15, api_key = "Remove from Merchant Whitelist" },
+            new ApiLibraryItem { client_id = 16, api_key = "Create Customer" },
+            new ApiLibraryItem { client_id = 17, api_key = "Update Customer" },
+            new ApiLibraryItem { client_id = 18, api_key = "Get Customer Cards" },
+            new ApiLibraryItem { client_id = 19, api_key = "Phone Verify" },
+            new ApiLibraryItem { client_id = 20, api_key = "INPay - getbanks" },
+            new ApiLibraryItem { client_id = 21, api_key = "INPay - getinstructions" },
+            new ApiLibraryItem { client_id = 22, api_key = "api_keyEAL ABN - getbanks" },
+            new ApiLibraryItem { client_id = 23, api_key = "Earthport - GetPayoutRequiredData" }
         };
 
         public IEnumerable<ApiLibraryItem> GetAllNames()
@@ -43,7 +43,7 @@ namespace APILibrary.Controllers
 
         public IHttpActionResult GetApiName (int id)
         {
-            var name = names.FirstOrDefault((a) => a.id == id);
+            var name = names.FirstOrDefault((a) => a.client_id == id);
             if (name == null)
             {
                 return NotFound();
