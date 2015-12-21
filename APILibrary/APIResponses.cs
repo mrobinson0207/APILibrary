@@ -35,7 +35,10 @@ public class order
     [XmlElement("order_status")]
     public string order_status { get; set; }
     // Shipping fields
-    //public shipping shipping { get; set; }
+    /*[XmlArrayItem("customer_info", typeof(customer_info))]
+    public customer_info customer { get; set; }
+    [XmlArrayItem("shipping_info", typeof(shipping_info))]
+    public shipping_info shipping { get; set; } */
     [XmlElement("customer_first_name")]
     public string customer_first_name { get; set; }
     [XmlElement("customer_last_name")]
@@ -78,9 +81,30 @@ public class order
 
 // Split this into customer and shipping??
 [Serializable]
-public class shipping
+public class shipping_info
 {
     // Shipping fields
+    [XmlElement("shipping_last_name")]
+    public string shipping_last_name { get; set; }
+    [XmlElement("shipping_company")]
+    public string shipping_company { get; set; }
+    [XmlElement("shipping_address")]
+    public string shipping_address { get; set; }
+    [XmlElement("shipping_city")]
+    public string shipping_city { get; set; }
+    [XmlElement("shipping_state")]
+    public string shipping_state { get; set; }
+    [XmlElement("shipping_postcode")]
+    public string shipping_postcode { get; set; }
+    [XmlElement("shipping_country")]
+    public string shipping_country { get; set; }
+}
+
+// Split this into customer and shipping??
+[Serializable]
+public class customer_info
+{
+    // Customer fields
     [XmlElement("customer_first_name")]
     public string customer_first_name { get; set; }
     [XmlElement("customer_last_name")]
@@ -101,20 +125,6 @@ public class shipping
     public string customer_email { get; set; }
     [XmlElement("customer_phone")]
     public string customer_phone { get; set; }
-    [XmlElement("shipping_last_name")]
-    public string shipping_last_name { get; set; }
-    [XmlElement("shipping_company")]
-    public string shipping_company { get; set; }
-    [XmlElement("shipping_address")]
-    public string shipping_address { get; set; }
-    [XmlElement("shipping_city")]
-    public string shipping_city { get; set; }
-    [XmlElement("shipping_state")]
-    public string shipping_state { get; set; }
-    [XmlElement("shipping_postcode")]
-    public string shipping_postcode { get; set; }
-    [XmlElement("shipping_country")]
-    public string shipping_country { get; set; }
 }
 
 [Serializable]
@@ -185,7 +195,7 @@ public class item
     [XmlElement("unit_price")]
     public string unit_price { get; set; }
     [XmlElement("rebill")]
-    public string rebill { get; set; }
+    public rebill rebill { get; set; }
 }
 
 [Serializable]
@@ -207,6 +217,8 @@ public class providers
 [Serializable]
 public class transaction
 {
+    [XmlElement("redirect_url")]
+    public string redirect_url { get; set; }
     [XmlElement("type")]
     public string type { get; set; }
     [XmlElement("response")]
@@ -230,6 +242,13 @@ public class error
     public string code { get; set; }
     [XmlElement("text")]
     public string text { get; set; }
+}
+
+[XmlRoot("decline"), Serializable]
+public class decline
+{
+    [XmlElement("transaction")]
+    public transaction transaction { get; set; }
 }
 
 [Serializable]
@@ -412,8 +431,8 @@ public class rebill
     public string rebill_period { get; set; }
     [XmlElement("rebill_count")]
     public string rebill_count { get; set; }
-    [XmlElement("rebill_remaining")]
-    public string rebill_remaining { get; set; }
+    [XmlElement("rebills_remaining")]
+    public string rebills_remaining { get; set; }
     [XmlElement("initial_price")]
     public string initial_price { get; set; }
     [XmlElement("next_due")]
@@ -750,6 +769,7 @@ public class APIResponses
 {
     public orders resp_orders;
     public failure resp_failure;
+    public decline resp_decline;
     public settle resp_settle;
     public credit resp_credit;
     public cft resp_cft;
@@ -787,6 +807,10 @@ public class APIResponses
                 case "failure":
                     ser = new XmlSerializer(typeof(failure));
                     resp_failure = (failure)ser.Deserialize(new StringReader(responseXml));
+                    break;
+                case "decline":
+                    ser = new XmlSerializer(typeof(decline));
+                    resp_decline = (decline)ser.Deserialize(new StringReader(responseXml));
                     break;
                 case "settle":
                     ser = new XmlSerializer(typeof(settle));

@@ -68,9 +68,15 @@ public class ApiProxy : DelegatingHandler
 
         HttpContent reqContent = request.Content;
 
-
-        // Credentials for testing
         NameValueCollection nv = new NameValueCollection();
+        /*foreach (var prop in request.Properties)
+        {
+            nv.Add(prop.Key, prop.Value as string);
+        } */
+
+        
+        // Credentials for testing
+        nv = new NameValueCollection();
         nv.Add("client_id", "4003124");
         nv.Add("api_key", "oVGGWa1kr83aeRhBNE3B");
         nv.Add("test_transaction", "1");
@@ -114,15 +120,6 @@ public class ApiProxy : DelegatingHandler
         {
             string catching = "debug";
         }
-
-        /*HttpResponseMessage httpResp = new HttpResponseMessage
-        {
-            Content = new ObjectContent<string>(
-                         respContent,
-                         new XmlMediaTypeFormatter(),
-                         "application/xml"),
-            StatusCode = HttpStatusCode.OK
-        };*/
 
         HttpResponseMessage httpResp = new HttpResponseMessage
         {
