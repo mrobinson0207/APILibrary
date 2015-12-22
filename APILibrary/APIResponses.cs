@@ -7,6 +7,28 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 // Response classes
 
+[XmlRoot("order"), Serializable]
+public class submitOrder
+{
+    // Common Fields - order
+    [XmlElement("order_id")]
+    public string order_id { get; set; }
+    [XmlElement("order_datetime")]
+    public string order_datetime { get; set; }
+    [XmlElement("order_total")]
+    public string order_total { get; set; }
+    [XmlElement("test_transaction")]
+    public string test_transaction { get; set; }
+    [XmlElement("order_status")]
+    public string order_status { get; set; }
+    [XmlArray("cart")]
+    [XmlArrayItem("item")]
+    public item [] cart { get; set; }
+    [XmlElement("transaction")]
+    public transaction transaction { get; set; }
+}
+
+
 [XmlRoot("orders"), Serializable]
 public class orders
 {
@@ -34,44 +56,47 @@ public class order
     public string test_transaction { get; set; }
     [XmlElement("order_status")]
     public string order_status { get; set; }
-    // Shipping fields
-    /*[XmlArrayItem("customer_info", typeof(customer_info))]
+    /* Shipping fields
     public customer_info customer { get; set; }
-    [XmlArrayItem("shipping_info", typeof(shipping_info))]
-    public shipping_info shipping { get; set; } */
-    [XmlElement("customer_first_name")]
+    public shipping_info shipping { get; set; }*/
+    [XmlElement("customer_first_name", IsNullable = false)]
+    /*public string customer_first_name
+    {
+        get { return this.customer_first_name; }
+        set { value = String.IsNullOrEmpty(value) ? null : value; }
+    }*/
     public string customer_first_name { get; set; }
-    [XmlElement("customer_last_name")]
+    [XmlElement("customer_last_name", IsNullable = false)]
     public string customer_last_name { get; set; }
-    [XmlElement("customer_company")]
+    [XmlElement("customer_company", IsNullable = false)]
     public string customer_company { get; set; }
-    [XmlElement("customer_address")]
+    [XmlElement("customer_address", IsNullable = false)]
     public string customer_address { get; set; }
-    [XmlElement("customer_city")]
+    [XmlElement("customer_city", IsNullable = false)]
     public string customer_city { get; set; }
-    [XmlElement("customer_state")]
+    [XmlElement("customer_state", IsNullable = false)]
     public string customer_state { get; set; }
-    [XmlElement("customer_postcode")]
+    [XmlElement("customer_postcode", IsNullable = false)]
     public string customer_postcode { get; set; }
-    [XmlElement("customer_country")]
+    [XmlElement("customer_country", IsNullable = false)]
     public string customer_country { get; set; }
-    [XmlElement("customer_email")]
+    [XmlElement("customer_email", IsNullable = false)]
     public string customer_email { get; set; }
-    [XmlElement("customer_phone")]
+    [XmlElement("customer_phone", IsNullable = false)]
     public string customer_phone { get; set; }
-    [XmlElement("shipping_last_name")]
+    [XmlElement("shipping_last_name", IsNullable = false)]
     public string shipping_last_name { get; set; }
-    [XmlElement("shipping_company")]
+    [XmlElement("shipping_company", IsNullable = false)]
     public string shipping_company { get; set; }
-    [XmlElement("shipping_address")]
+    [XmlElement("shipping_address", IsNullable = false)]
     public string shipping_address { get; set; }
-    [XmlElement("shipping_city")]
+    [XmlElement("shipping_city", IsNullable = false)]
     public string shipping_city { get; set; }
-    [XmlElement("shipping_state")]
+    [XmlElement("shipping_state", IsNullable = false)]
     public string shipping_state { get; set; }
-    [XmlElement("shipping_postcode")]
+    [XmlElement("shipping_postcode", IsNullable = false)]
     public string shipping_postcode { get; set; }
-    [XmlElement("shipping_country")]
+    [XmlElement("shipping_country", IsNullable = false)]
     public string shipping_country { get; set; }
     [XmlArray("items")]
     [XmlArrayItem("item", typeof(item))]
@@ -79,51 +104,49 @@ public class order
 
 }
 
-// Split this into customer and shipping??
-[Serializable]
+[XmlRoot("shipping_last_name"), Serializable]
 public class shipping_info
 {
     // Shipping fields
-    [XmlElement("shipping_last_name")]
+    [XmlElement("shipping_last_name", IsNullable = false)]
     public string shipping_last_name { get; set; }
-    [XmlElement("shipping_company")]
+    [XmlElement("shipping_company", IsNullable = false)]
     public string shipping_company { get; set; }
-    [XmlElement("shipping_address")]
+    [XmlElement("shipping_address", IsNullable = false)]
     public string shipping_address { get; set; }
-    [XmlElement("shipping_city")]
+    [XmlElement("shipping_city", IsNullable = false)]
     public string shipping_city { get; set; }
-    [XmlElement("shipping_state")]
+    [XmlElement("shipping_state", IsNullable = false)]
     public string shipping_state { get; set; }
-    [XmlElement("shipping_postcode")]
+    [XmlElement("shipping_postcode", IsNullable = false)]
     public string shipping_postcode { get; set; }
-    [XmlElement("shipping_country")]
+    [XmlElement("shipping_country", IsNullable = false)]
     public string shipping_country { get; set; }
 }
 
-// Split this into customer and shipping??
-[Serializable]
+[XmlRoot("customer_first_name"), Serializable]
 public class customer_info
 {
     // Customer fields
-    [XmlElement("customer_first_name")]
+    [XmlElement("customer_first_name", IsNullable = false)]
     public string customer_first_name { get; set; }
-    [XmlElement("customer_last_name")]
+    [XmlElement("customer_last_name", IsNullable = false)]
     public string customer_last_name { get; set; }
-    [XmlElement("customer_company")]
+    [XmlElement("customer_company", IsNullable = false)]
     public string customer_company { get; set; }
-    [XmlElement("customer_address")]
+    [XmlElement("customer_address", IsNullable = false)]
     public string customer_address { get; set; }
-    [XmlElement("customer_city")]
+    [XmlElement("customer_city", IsNullable = false)]
     public string customer_city { get; set; }
-    [XmlElement("customer_state")]
+    [XmlElement("customer_state", IsNullable = false)]
     public string customer_state { get; set; }
-    [XmlElement("customer_postcode")]
+    [XmlElement("customer_postcode", IsNullable = false)]
     public string customer_postcode { get; set; }
-    [XmlElement("customer_country")]
+    [XmlElement("customer_country", IsNullable = false)]
     public string customer_country { get; set; }
-    [XmlElement("customer_email")]
+    [XmlElement("customer_email", IsNullable = false)]
     public string customer_email { get; set; }
-    [XmlElement("customer_phone")]
+    [XmlElement("customer_phone", IsNullable = false)]
     public string customer_phone { get; set; }
 }
 
@@ -180,7 +203,7 @@ public class item
     public string code { get; set; }
     [XmlElement("name")]
     public string name { get; set; }
-    [XmlElement("description")]
+    [XmlElement("description", IsNullable = false)]
     public string description { get; set; }
     [XmlElement("qty")]
     public string qty { get; set; }
@@ -188,9 +211,9 @@ public class item
     public string digital { get; set; }
     [XmlElement("discount")]
     public string discount { get; set; }
-    [XmlElement("predefined")]
+    [XmlElement("predefined", IsNullable = false)]
     public string predefined { get; set; }
-    [XmlElement("realm_name")]
+    [XmlElement("realm_name", IsNullable = false)]
     public string realm_name { get; set; }
     [XmlElement("unit_price")]
     public string unit_price { get; set; }
@@ -202,9 +225,8 @@ public class item
 public class cart
 {
     // Cart items
-    [XmlArray("items")]
     [XmlArrayItem("item", typeof(item))]
-    public item[] items { get; set; }
+    public item item { get; set; }
 }
 
 [Serializable]
@@ -767,6 +789,7 @@ public class failure
 
 public class APIResponses
 {
+    public submitOrder resp_order;
     public orders resp_orders;
     public failure resp_failure;
     public decline resp_decline;
@@ -800,6 +823,10 @@ public class APIResponses
         {
             switch (respType)
             {
+                case "order":
+                    ser = new XmlSerializer(typeof(submitOrder));
+                    resp_order = (submitOrder)ser.Deserialize(new StringReader(responseXml));
+                    break;
                 case "orders":
                     ser = new XmlSerializer(typeof(orders));
                     resp_orders = (orders)ser.Deserialize(new StringReader(responseXml));

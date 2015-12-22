@@ -11,4 +11,3 @@ C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.xml
 C:\A2\ASP\APILibrary\APILibrary\bin\System.Web.Http.WebHost.xml
 C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.dll
 C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.pdb
-C:\A2\ASP\APILibrary\APILibrary\obj\Debug\APILibrary.csprojResolveAssemblyReference.cache

@@ -55,7 +55,25 @@ public class ApiProxy : DelegatingHandler
             string arg1 = request.RequestUri.Segments[2].Split('/')[0];
             string arg2 = (request.RequestUri.Segments.Length > 2) ? request.RequestUri.Segments[3] : null;
             UnitTests tests = new UnitTests(arg1, arg2);
-            return null;
+            List<string> fails = tests.GetFailures();
+            string testContent = "Unit tests for " + arg1 + "/" + arg2 + ":";
+            if (fails.Count == 0)
+            {
+                testContent += " passed";
+            }
+            else
+            {
+                testContent += " failed - " + String.Concat(fails);
+            }
+            HttpResponseMessage testResp = new HttpResponseMessage
+            {
+                Content = new StringContent(
+                             testContent,
+                             System.Text.Encoding.UTF8,
+                             "application/xml"),
+                StatusCode = HttpStatusCode.OK
+            };
+            return testResp;
         }
 
         // Add in the rest of the request
@@ -64,23 +82,16 @@ public class ApiProxy : DelegatingHandler
             uriPart += part;
         }
 
-        // Determine the service type to pass to APIResponses for its deserialisation
-
-        HttpContent reqContent = request.Content;
-
+        // Get the form data to pass
         NameValueCollection nv = new NameValueCollection();
-        /*foreach (var prop in request.Properties)
+        var context = (HttpContextWrapper)request.Properties["MS_HttpContext"];
+        var formKeys = context.Request.Form.Keys;
+        int keyIndex = 0;
+        foreach (string key in formKeys)
         {
-            nv.Add(prop.Key, prop.Value as string);
-        } */
-
-        
-        // Credentials for testing
-        nv = new NameValueCollection();
-        nv.Add("client_id", "4003124");
-        nv.Add("api_key", "oVGGWa1kr83aeRhBNE3B");
-        nv.Add("test_transaction", "1");
-        nv.Add("date", "2015-12-14");
+            string value = context.Request.Form.GetValues(keyIndex++)[0];
+            nv.Add(key, value);
+        }
         string query = CreateQueryString(nv);
 
         byte[] data = System.Text.Encoding.ASCII.GetBytes(query);
