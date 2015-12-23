@@ -44,7 +44,7 @@ namespace APILibrary
                     innerHandler: new HttpClientHandler(), // will never get here if proxy is doing its job
                     handlers: new DelegatingHandler[] { new ApiProxy() }
                 ),
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { type = RouteParameter.Optional }
             );
 
         }

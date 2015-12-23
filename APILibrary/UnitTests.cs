@@ -172,13 +172,12 @@ public class UnitTests
     {
         // Construct tests
         string testString = genericHdr;
-        APIResponses apiResp;
-        bool testPassed = true;
+        APIResponses apiResp = new APIResponses();
         bool testAll = false;
         int index = 0;
         string[] testCases = { "order", "payout", "vbvmc3d", "blacklist", "whitelist", "customer", "phoneverify", "inpay", "idealabn", "transaction", "risk", "chargeback", "airline", "failure" };
         failCases = new List<string>();
-        List<PropertyInfo> tempList;
+        List<PropertyInfo> tempList = new List<PropertyInfo>();
         if (String.IsNullOrEmpty(testType) || (testType == "all"))
         {
             testType = "order";
@@ -191,34 +190,30 @@ public class UnitTests
             {
                 case "order":
                     {
-                        tempList = new List<PropertyInfo>();
                         orderResponses orderResp = new orderResponses();
-                        if (subType == "submit")
+                        if (string.IsNullOrEmpty(subType) || subType == "submit")
                         {
                             // fixed fields test
-                            apiResp = new APIResponses(String.Concat(testString, orderResp.orderSubmitFixedStr));
-                            submitOrder subResp = apiResp.resp_order;
+                            submitOrder subResp = apiResp.getOrder(String.Concat(testString, orderResp.orderSubmitFixedStr));
                             submitOrder subComp = orderResp.orderSubmitFixedObj;
                             CompareProperties(subResp, subComp, tempList);
                             // dynamic fields test
                             testString = genericHdr;
-                            apiResp = new APIResponses(String.Concat(testString, orderResp.orderSubmitDynamicStr));
-                            subResp = apiResp.resp_order;
+                            subResp = apiResp.getOrder(String.Concat(testString, orderResp.orderSubmitDynamicStr));
                             subComp = orderResp.orderSubmitDynamicObj;
                             CompareProperties(subResp, subComp, tempList);
                         }
 
-                        if (subType == "search")
+                        if (string.IsNullOrEmpty(subType) || subType == "search")
                         {
-                            apiResp = new APIResponses(String.Concat(testString, orderResp.orderSearchStr));
-                            orders searchResp = apiResp.resp_orders;
+                            orders searchResp = apiResp.getOrders(String.Concat(testString, orderResp.orderSearchStr));
                             orders searchComp = orderResp.orderSearchObj;
                             CompareProperties(searchResp, searchComp, tempList);
                         }
 
                         if (tempList.Count > 0)
                         {
-                            failCases.Add(testType + "/" + "subType");
+                            failCases.Add(testType + "/" + subType);
                         }
                         break;
                     }
@@ -228,25 +223,29 @@ public class UnitTests
                     break;
                 case "blacklist":
                     {
-                        blacklistResponses blkResp = new blacklistResponses();
-                        apiResp = new APIResponses(String.Concat(testString, blkResp.blacklistStr));
-                        blacklist blk = apiResp.resp_blacklist;
-                        blacklist comp = blkResp.blacklistObj;
-                        if (blk.response != comp.response)
+                        int failCount = failCases.Count;
+                        blacklistResponses blkRsps = new blacklistResponses();
+                        blacklist blkResp = apiResp.getBlacklist(String.Concat(testString, blkRsps.blacklistStr));
+                        blacklist compResp = blkRsps.blacklistObj;
+                        CompareProperties(blkResp, compResp, tempList);
+
+                        if (tempList.Count > failCount)
                         {
-                            testPassed = false;
+                            failCases.Add(testType + "/" + subType);
                         }
                         break;
                     }
                 case "whitelist":
                     {
-                        whitelistResponses whiteResp = new whitelistResponses();
-                        apiResp = new APIResponses(String.Concat(testString, whiteResp.whitelistStr));
-                        whitelist blk = apiResp.resp_whitelist;
-                        whitelist comp = whiteResp.whitelistObj;
-                        if (blk.response != comp.response)
+                        int failCount = failCases.Count;
+                        whitelistResponses whiteRsp = new whitelistResponses();
+                        whitelist whiteResp = apiResp.getWhitelist(String.Concat(testString, whiteRsp.whitelistStr));
+                        whitelist compResp = whiteRsp.whitelistObj;
+                        CompareProperties(whiteResp, compResp, tempList);
+
+                        if (tempList.Count > failCount)
                         {
-                            testPassed = false;
+                            failCases.Add(testType + "/" + subType);
                         }
                         break;
                     }
@@ -268,33 +267,21 @@ public class UnitTests
                     break;
                 case "failure":
                     {
+                        int failCount = failCases.Count;
                         failureResponses failResp = new failureResponses();
-                        apiResp = new APIResponses(String.Concat(testString, failResp.failureStr));
-                        failure fail = apiResp.resp_failure;
+                        failure fail = apiResp.getFailure(String.Concat(testString, failResp.failureStr));
                         failure comp = failResp.failureObj;
-                        if (fail.errors.Length == comp.errors.Length)
+                        CompareProperties(fail, comp, tempList);
+
+                        if (tempList.Count > failCount)
                         {
-                            for (int i = 0; i < comp.errors.Length; i++)
-                            {
-                                if ((fail.errors[i].code != comp.errors[i].code) ||
-                                    (fail.errors[i].text != comp.errors[i].text))
-                                {
-                                    testPassed = false;
-                                    break;
-                                }
-                            }
+                            failCases.Add(testType + "/" + subType);
                         }
 
                         break;
                     }
                 default:
                     break;
-            }
-
-            if (!testPassed)
-            {
-                failCases.Add("testType");
-                testPassed = true;
             }
 
             if (!testAll || (++index == testCases.Length))
