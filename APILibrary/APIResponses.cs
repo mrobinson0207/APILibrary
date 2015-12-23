@@ -431,19 +431,27 @@ public class field
 [Serializable]
 public class avs_response
 {
+    [XmlElement("acquirer_approvalcode")]
     public string acquirer_approvalcode { get; set; }
+    [XmlElement("acquirer_actioncode")]
     public string acquirer_actioncode { get; set; }
+    [XmlElement("acquirer_description")]
     public string acquirer_description { get; set; }
+    [XmlElement("iso_actioncode")]
     public string iso_actioncode { get; set; }
 }
 
-/*[Serializable]
-public class rebill
+[XmlRoot("rebill"), Serializable]
+public class mgdRebill
 {
+    [XmlElement("transaction")]
     public transaction transaction { get; set; }
+    [XmlElement("item")]
     public item item { get; set; }
+    [XmlElement("order")]
     public order order { get; set; }
-}*/
+}
+
 [Serializable]
 public class rebill
 {
@@ -592,6 +600,23 @@ public class whitelist
 {
     [XmlElement("response")]
     public string response { get; set; }
+}
+
+[XmlRoot("airlinetrans"), Serializable]
+public class airlinetrans
+{
+    [XmlElement("num_records")]
+    public string num_records { get; set; }
+    [XmlArrayItem("airlinedata", typeof(airlinedata))]
+    public airlinedata[] airlinedata { get; set; }
+}
+
+[XmlRoot("failure"), Serializable]
+public class failure
+{
+    [XmlArray("errors")]
+    [XmlArrayItem("error", typeof(error))]
+    public error[] errors { get; set; }
 }
 
 [Serializable]
@@ -769,44 +794,198 @@ public class airlinedata
     public string endorsement_or_restrictions { get; set; }
 }
 
-[XmlRoot("airlinetrans"), Serializable]
-public class airlinetrans
-{
-    [XmlElement("num_records")]
-    public string num_records { get; set; }
-    [XmlArrayItem("airlinedata", typeof(airlinedata))]
-    public airlinedata[] airlinedata { get; set; }
-}
-
-[XmlRoot("failure"), Serializable]
-public class failure
-{
-    [XmlArray("errors")]
-    [XmlArrayItem("error", typeof(error))]
-    public error[] errors { get; set; }
-}
-
 
 public class APIResponses
 {
-    public submitOrder resp_order;
-    public orders resp_orders;
-    public failure resp_failure;
-    public decline resp_decline;
-    public settle resp_settle;
-    public credit resp_credit;
-    public cft resp_cft;
-    public _void resp_void;
-    public payout resp_payout;
-    public upgrade resp_upgrade;
-    public cancelrebill resp_cancelrebill;
-    public response resp_response;
-    public result resp_result;
-    public blacklist resp_blacklist;
-    public whitelist resp_whitelist;
-    public string resp_xml;
+    private submitOrder resp_order;
+    private orders resp_orders;
+    private failure resp_failure;
+    private decline resp_decline;
+    private settle resp_settle;
+    private credit resp_credit;
+    private cft resp_cft;
+    private _void resp_void;
+    private payout resp_payout;
+    private upgrade resp_upgrade;
+    private cancelrebill resp_cancelrebill;
+    private response resp_response;
+    private result resp_result;
+    private blacklist resp_blacklist;
+    private whitelist resp_whitelist;
+    private string resp_xml;
 
-  	public APIResponses(string responseXml)
+    public submitOrder getOrder(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_order;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_order;
+    }
+
+    public orders getOrders(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_orders;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_orders;
+    }
+
+    public failure getFailure(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_failure;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_failure;
+    }
+
+    public decline getDecline(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_decline;
+        }
+
+        this.fmtResponse(responseXml);
+        return  resp_decline;
+    }
+
+    public settle getSettle(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_settle;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_settle;
+    }
+
+    public credit getCredit(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_credit;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_credit;
+    }
+
+
+    public cft getCft(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_cft;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_cft;
+    }
+
+    public _void getVoid(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_void;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_void;
+    }
+
+    public payout getPayout(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_payout;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_payout;
+    }
+
+    public upgrade getUpgrade(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_upgrade;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_upgrade;
+    }
+
+    public cancelrebill getCancelrebill(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_cancelrebill;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_cancelrebill;
+    }
+
+    public response getResponse(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_response;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_response;
+    }
+
+    public result getResult(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_result;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_result;
+    }
+
+    public blacklist getBlacklist(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_blacklist;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_blacklist;
+    }
+
+    public whitelist getWhitelist(string responseXml)
+    {
+        if (string.IsNullOrEmpty(responseXml))
+        {
+            return resp_whitelist;
+        }
+
+        this.fmtResponse(responseXml);
+        return resp_whitelist;
+    }
+
+    public string getRaw()
+    {
+        return resp_xml;
+    }
+
+    private void fmtResponse(string responseXml)
 	{
         // Take a copy of the xml - this can be presented if the deserialize fails
         resp_xml = String.Copy(responseXml);
@@ -897,4 +1076,13 @@ public class APIResponses
 
         return;
 	}
+
+    public APIResponses(string responseXml)
+    {
+            this.fmtResponse(responseXml);
+    }
+
+    public APIResponses()
+    {
+    }
 }

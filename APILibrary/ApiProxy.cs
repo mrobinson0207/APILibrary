@@ -53,7 +53,7 @@ public class ApiProxy : DelegatingHandler
         if (request.RequestUri.Segments[1].Contains("test"))
         {
             string arg1 = request.RequestUri.Segments[2].Split('/')[0];
-            string arg2 = (request.RequestUri.Segments.Length > 2) ? request.RequestUri.Segments[3] : null;
+            string arg2 = (request.RequestUri.Segments.Length > 3) ? request.RequestUri.Segments[3] : null;
             UnitTests tests = new UnitTests(arg1, arg2);
             List<string> fails = tests.GetFailures();
             string testContent = "Unit tests for " + arg1 + "/" + arg2 + ":";
@@ -103,7 +103,7 @@ public class ApiProxy : DelegatingHandler
         wrequest.ContentType = "application/x-www-form-urlencoded";
         wrequest.ContentLength = data.Length;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        APIResponses apiResp = null;
+        APIResponses apiResp;
         WebResponse wresponse = null;
         string respContent = null;
         Stream dataStream;
@@ -129,7 +129,7 @@ public class ApiProxy : DelegatingHandler
         }
         catch (Exception ex)
         {
-            string catching = "debug";
+            respContent = "Exception: " + ex.Message + "; Processed content: " + respContent;
         }
 
         HttpResponseMessage httpResp = new HttpResponseMessage
